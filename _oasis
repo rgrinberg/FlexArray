@@ -1,0 +1,26 @@
+OASISFormat: 0.3
+Name:        flexible-array
+Version:     0.0.1
+Synopsis:    Flexible Arrays (credited to Braun)
+Authors:     Rudi Grinberg
+Plugins:     META (0.3)
+License:     LGPL-2.1 with OCaml linking exception
+
+Library "flexible-array"
+  Path:            lib
+  BuildTools:      ocamlbuild
+  Modules:         FlexArray
+  InternalModules: Braun
+  XMETADescription: Simple implementation of flexible arrays
+  
+Executable test_flexible_array
+  Path: lib_test
+  MainIs: test_flexible_array.ml
+  Install: false
+  BuildTools: ocamlbuild
+  BuildDepends: flexible-array, oUnit
+
+Test test_flexible_array
+  Run$: flag(tests)
+  command: $test_flexible_array
+  WorkingDirectory: lib_test
