@@ -35,7 +35,7 @@ let update (t, n) k ~f =
   if (0 <= k) && (k < n) then ((B.update t (k+1) ~f), n)
   else raise Subscript
 
-let to_list (t, n) = B.to_list t
+let to_list (t, _) = B.to_list t
 
 (* inefficient versions *)
 

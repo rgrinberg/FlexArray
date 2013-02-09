@@ -73,8 +73,14 @@ let fa_fix =
         let l1 = [1;2;3;4;5] in
         let l2 = [-1;-2;-3;-4;-5] in
         let mapped = map (from_list l1) ~f:(fun x -> x * -1) in
-        assert_equal (form_list l2) mapped;
-
+        assert_equal (from_list l2) mapped;
+      end;
+      "iter" >:: begin fun () ->
+        let l = [1;2;3;4;5] in
+        let real_sum = List.fold_left (+) 0 l in
+        let sum = ref 0 in
+        iter (from_list l) ~f:(fun x -> sum := (!sum) + x);
+        assert_equal (!sum) real_sum ~printer:string_of_int
       end;
     ]
 
