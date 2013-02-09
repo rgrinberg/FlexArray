@@ -76,3 +76,14 @@ let rec to_list = function
   | Branch (left, x, right) ->
       x::(interleave(to_list left, (to_list right)))
 
+let rec map t ~f =
+  match t with
+  | Empty -> Empty
+  | Branch (left, x, right) -> Branch (map left ~f, (f x), map right ~f)
+
+let rec iter_orderless t ~f = 
+  match t with
+  | Empty -> ()
+  | Branch (left, x, right) -> begin
+      f x; iter_orderless left ~f; iter_orderless right ~f
+  end

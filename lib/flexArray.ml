@@ -47,3 +47,28 @@ let from_list l = List.fold_left snoc empty l
 
 (*let to_array (t, n) = Array.init n (get (t,n))*)
 let to_array (t, n) = Array.init n (get (t,n))
+
+let map (t, n) ~f = (B.map t ~f, n)
+
+(* TODO : this is a slow and shitty version for now *)
+let iter (t,n) ~f =
+  for i = 1 to n do f (B.get t i); done
+
+let iter_reverse (t,n) ~f = 
+  for i = n downto 1 do f (B.get t i); done
+
+let iter_orderless (t, _) ~f = B.iter_orderless t ~f
+
+let fold_left t ~init ~f = 
+  let accum = ref init in
+  iter t ~f:(fun x ->
+    accum := f (!accum) x
+  ); !accum
+
+let fold_right t ~f ~init = 
+  let accum = ref init in
+  iter_reverse t ~f:(fun x ->
+    accum := f x (!accum)
+  ); !accum
+
+
