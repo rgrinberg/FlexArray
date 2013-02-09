@@ -75,13 +75,36 @@ let fa_fix =
         let mapped = map (from_list l1) ~f:(fun x -> x * -1) in
         assert_equal (from_list l2) mapped;
       end;
-      "iter" >:: begin fun () ->
+      "iter_orderless" >:: begin fun () ->
         let l = [1;2;3;4;5] in
         let real_sum = List.fold_left (+) 0 l in
         let sum = ref 0 in
-        iter (from_list l) ~f:(fun x -> sum := (!sum) + x);
+        iter_orderless (from_list l) ~f:(fun x -> sum := (!sum) + x);
         assert_equal (!sum) real_sum ~printer:string_of_int
       end;
+      "iter" >:: begin fun () ->
+        let l = [1;2;3;4;5] in
+        let i = ref 1 in
+        iter (from_list l) ~f:(fun x -> assert_equal (!i) x; incr i)
+      end;
+      "iter_reverse" >:: begin fun () ->
+        let l = [1;2;3;4;5] in
+        let i = ref 5 in
+        iter_reverse (from_list l) ~f:(
+          fun x -> assert_equal (!i) x ~printer:string_of_int ; decr i)
+      end;
+      "fold_left" >:: begin fun () ->
+        let l = [1;2;3;4;5] in
+        let f1 = List.fold_left (-) 0 l in
+        let f2 = fold_left (from_list l) ~init:0 ~f:(-) in
+        assert_equal f1 f2 ~printer:string_of_int
+      end;
+      "fold_right" >:: begin fun () ->
+        let l = [1;2;3;4;5] in
+        let f1 = List.fold_right (-) l 0 in
+        let f2 = fold_right (from_list l) ~init:0 ~f:(-) in
+        assert_equal f1 f2 ~printer:string_of_int
+      end
     ]
 
 let _ = run_test_tt ~verbose:true braun_fix
