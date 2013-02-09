@@ -69,6 +69,13 @@ let fa_fix =
         let l = [1;2;3;4] in
         assert_equal (to_list (from_list l)) l
       end;
+      "map" >:: begin fun () ->
+        let l1 = [1;2;3;4;5] in
+        let l2 = [-1;-2;-3;-4;-5] in
+        let mapped = map (from_list l1) ~f:(fun x -> x * -1) in
+        assert_equal (form_list l2) mapped;
+
+      end;
     ]
 
 let _ = run_test_tt ~verbose:true braun_fix
