@@ -1,6 +1,6 @@
 OASISFormat: 0.3
 Name:        flexible-array
-Version:     0.0.1
+Version:     0.0.2
 Synopsis:    Flexible Arrays (credited to Braun)
 Authors:     Rudi Grinberg
 Plugins:     META (0.3)
