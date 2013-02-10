@@ -38,6 +38,15 @@ let fa2d_fix =
         let arr = ArrayLabels.make_matrix ~dimx:4 ~dimy:4 10 in
         assert_equal (to_2d_array (of_2d_array arr)) arr
       end;
+      "swap" >:: begin fun () ->
+        let arr = ArrayLabels.init 6 ~f:(fun i -> 
+          ArrayLabels.init 6 ~f:(fun j -> (i,j))) in
+        let fa = of_2d_array arr in
+        let fa2 = swap fa (1,2) (3,4) in
+        arr.(1).(2) <- (3,4);
+        arr.(3).(4) <- (1,2);
+        assert_equal (of_2d_array arr) fa2
+      end
     ]
 
 let fa_fix =
