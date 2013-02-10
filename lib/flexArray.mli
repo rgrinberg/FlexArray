@@ -48,6 +48,8 @@ val create : len:int -> 'a -> 'a t
 
 val swap : 'a t -> int -> int -> 'a t
 
+val inbounds : 'a t -> int -> bool
+
 module F2D : sig
   val get : 'a t t -> int * int -> 'a
   val set : 'a t t -> int * int -> 'a -> 'a t t
@@ -56,4 +58,6 @@ module F2D : sig
   val init : dimx:int -> dimy:int -> f:(x:int -> y:int -> 'a) -> 'a t t
   val of_2d_array : 'a array array -> 'a t t
   val to_2d_array : 'a t t -> 'a array array
+  val dimensions : 'a t t -> int * int
+  val inbounds : 'a t t -> int * int -> bool
 end

@@ -84,6 +84,8 @@ let swap t i j =
   let f = set t i (get t j) in
   set f j e
 
+let inbounds t i = try (get t i); true with Subscript -> false
+
 (* Helper functions for 2d array manipulations *)
 module F2D = struct
   (* need this ugliness because we cannot reference functions in parent
@@ -93,8 +95,15 @@ module F2D = struct
     let inner = get t i in
     set t i (set inner j v)
 
+  (* NOTE : this function is not "safe" *)
+  let dimensions t =
+    let j = length (get t 0) in
+    (length t, j)
+
   let get = get2
   let set = set2
+
+  let inbounds t i = try (get t i); true with Subscript -> false
 
   let swap t i j =
     let e = get t i in
@@ -114,6 +123,5 @@ module F2D = struct
 
   let to_2d_array arr = 
     Array.map to_array (to_array arr)
-
 end
 
