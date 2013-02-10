@@ -112,5 +112,8 @@ module F2D = struct
   let of_2d_array arr =
     Array.fold_left (fun acc x -> snoc acc (of_array x)) empty arr
 
+  let to_2d_array arr = 
+    Array.map to_array (to_array arr)
+
 end
 

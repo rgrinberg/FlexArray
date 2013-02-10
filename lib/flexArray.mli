@@ -55,4 +55,5 @@ module F2D : sig
   val create : dimx:int -> dimy:int -> 'a -> 'a t t
   val init : dimx:int -> dimy:int -> f:(x:int -> y:int -> 'a) -> 'a t t
   val of_2d_array : 'a array array -> 'a t t
+  val to_2d_array : 'a t t -> 'a array array
 end
