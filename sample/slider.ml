@@ -1,6 +1,8 @@
 (* Example of using functional arrays to solve the "sliding block" puzzle *)
 open Core.Std
+
 module FA = FlexArray
+module FA2 = FlexArray.F2D
 
 type puzzle = {
   mat : int FA.t FA.t;
@@ -21,7 +23,7 @@ let create_random_puzzle ~dim =
       let linear = (i * dim) + j in
       mat.(i).(j) <- rnd.(linear);
     done;
-  done; { mat=(FA.F2D.of_2d_array mat); zero=(pred dim, pred dim) }
+  done; { mat=(FA2.of_2d_array mat); zero=(pred dim, pred dim) }
 
 let valid_moves { mat; zero } = 
   let (i,j) = zero in
