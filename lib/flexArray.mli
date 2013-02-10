@@ -51,7 +51,8 @@ val swap : 'a t -> int -> int -> 'a t
 module F2D : sig
   val get : 'a t t -> int * int -> 'a
   val set : 'a t t -> int * int -> 'a -> 'a t t
+  val swap : 'a t t -> int * int -> int * int -> 'a t t
   val create : dimx:int -> dimy:int -> 'a -> 'a t t
   val init : dimx:int -> dimy:int -> f:(x:int -> y:int -> 'a) -> 'a t t
-val of_2d_array : 'a array array -> 'a t t
+  val of_2d_array : 'a array array -> 'a t t
 end

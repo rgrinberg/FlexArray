@@ -96,6 +96,11 @@ module F2D = struct
   let get = get2
   let set = set2
 
+  let swap t i j =
+    let e = get t i in
+    let f = set t i (get t j) in
+    set f j e
+
   let create ~dimx ~dimy a = 
     let inner = create ~len:dimy a in
     create ~len:dimx inner
@@ -106,5 +111,6 @@ module F2D = struct
 
   let of_2d_array arr =
     Array.fold_left (fun acc x -> snoc acc (of_array x)) empty arr
+
 end
 

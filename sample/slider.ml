@@ -8,8 +8,6 @@ type puzzle = {
   mat : int FA.t FA.t;
   zero : int * int; (* position of the zero element *) }
 
-type move = Coord of int * int
-
 let zero_last arr = 
   let zero_posn = fst (Array.findi_exn arr ~f:(fun _ x -> x = 0)) in
   Array.swap arr zero_posn (Array.length arr - 1)
@@ -30,8 +28,8 @@ let valid_moves { mat; zero } =
   let (up, down, left, right) = ((i,j+1), (i,j-1), (i-1, j), (i+1,j)) in
   List.map [up; down; left; right] ~f:(fun dest -> dest)
 
-let make_move { mat ; zero=(z1,z2) } (Coord (i,j)) = 
-  let v = () in ()
+let make_move { mat ; zero=(z1,z2) } (i,j) = 
+  { mat=(FA2.swap mat (z1,z2) (i,j)); zero=(i,j) }
 
 
 let () = print_endline "testing"
