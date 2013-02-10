@@ -30,4 +30,4 @@ Executable example
   MainIs: slider.ml
   BuildTools: ocamlbuild
   Install: false
-  BuildDepends: flexible-array, core
+  BuildDepends: flexible-array, core, pa_pipebang

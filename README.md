@@ -11,6 +11,7 @@ OCaml
 Oasis (0.3+)
 oUnit (for tests)
 core (to run sample)
+pa_pipebang (to run sample)
 ```
 
 ### Installing

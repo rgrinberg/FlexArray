@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 21b6430738a822295f8dc91ee5544031)
+# DO NOT EDIT (digest: 7386dfdde03cc93f2bc708da85ba5ba6)
 # Ignore VCS directories, you can use the same kind of rule outside 
 # OASIS_START/STOP if you want to exclude directories that contains 
 # useless stuff for the build process
@@ -23,8 +23,10 @@
 # Executable example
 "sample/slider.byte": use_flexible-array
 "sample/slider.byte": pkg_core
+"sample/slider.byte": pkg_pa_pipebang
 <sample/*.ml{,i}>: use_flexible-array
 <sample/*.ml{,i}>: pkg_core
+<sample/*.ml{,i}>: pkg_pa_pipebang
 # OASIS_STOP
 <**/*.ml>: warn_Z, annot, use-menhir
 true: thread, debug
