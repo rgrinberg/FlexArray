@@ -10,6 +10,7 @@ requirements are:
 OCaml
 Oasis (0.3+)
 oUnit (for tests)
+core (to run sample)
 ```
 
 ### Installing
@@ -24,3 +25,6 @@ ocaml setup.ml -install # may require sudo
 
 See `lib/flexArray.mli`
 
+### License
+
+LGPL-2.1
