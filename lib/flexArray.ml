@@ -70,3 +70,12 @@ let fold_right t ~f ~init =
 
 let of_2d_array arr =
   Array.fold_left (fun acc x -> snoc acc (of_array x)) empty arr
+
+let create ~len a = (B.create ~len a, len)
+
+(* this is really inefficient but will do for now *)
+let init ~len ~f = 
+  let arr = create ~len 0 in
+  let i = ref 0 in
+  fold_left arr ~init:empty ~f:(fun accum _ -> set accum (!i) (f (!i)))
+

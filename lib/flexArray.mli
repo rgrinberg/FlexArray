@@ -43,3 +43,7 @@ val fold_right : 'a t -> f:('a -> 'accum -> 'accum) -> init:'accum -> 'accum
 val fold_left : 'a t -> init:'accum -> f:('accum -> 'a -> 'accum) -> 'accum
 
 val of_2d_array : 'a array array -> 'a t t
+
+val init : len:int -> f:(int -> 'a) -> 'a t
+
+val create : len:int -> 'a -> 'a t
