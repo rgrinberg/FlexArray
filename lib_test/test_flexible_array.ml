@@ -35,7 +35,7 @@ let fa2d_fix =
         done
       end;
       "to_2d_array" >:: begin fun () ->
-        let arr = ArrayLabels.make_matrix ~dimx ~dimy 10 in
+        let arr = ArrayLabels.make_matrix ~dimx:4 ~dimy:4 10 in
         assert_equal (to_2d_array (of_2d_array arr)) arr
       end;
     ]
