@@ -39,9 +39,9 @@ let to_list (t, _) = B.to_list t
 
 (* inefficient versions *)
 
-let from_array arr = Array.fold_left snoc empty arr
+let of_array arr = Array.fold_left snoc empty arr
 
-let from_list l = List.fold_left snoc empty l
+let of_list l = List.fold_left snoc empty l
 
 let to_array (t, n) = Array.init n (get (t,n))
 
@@ -68,5 +68,5 @@ let fold_right t ~f ~init =
     accum := f x (!accum)
   ); !accum
 
-let from_2d_array arr =
-  Array.fold_left (fun acc x -> snoc acc (from_array x)) empty arr
+let of_2d_array arr =
+  Array.fold_left (fun acc x -> snoc acc (of_array x)) empty arr

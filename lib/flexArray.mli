@@ -24,9 +24,9 @@ val update : 'a t -> int -> f:('a -> 'a) -> 'a t
 
 val to_list : 'a t -> 'a list
 
-val from_list : 'a list -> 'a t
+val of_list : 'a list -> 'a t
 
-val from_array : 'a array -> 'a t
+val of_array : 'a array -> 'a t
 
 val to_array : 'a t -> 'a array
 
@@ -42,4 +42,4 @@ val fold_right : 'a t -> f:('a -> 'accum -> 'accum) -> init:'accum -> 'accum
 
 val fold_left : 'a t -> init:'accum -> f:('accum -> 'a -> 'accum) -> 'accum
 
-val from_2d_array : 'a array array -> 'a t t
+val of_2d_array : 'a array array -> 'a t t
