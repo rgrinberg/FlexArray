@@ -39,13 +39,10 @@ let to_list (t, _) = B.to_list t
 
 (* inefficient versions *)
 
-(*let from_array arr = Array.fold ~init:empty ~f:snoc arr*)
 let from_array arr = Array.fold_left snoc empty arr
 
-(*let from_list l = List.fold ~init:empty ~f:snoc l*)
 let from_list l = List.fold_left snoc empty l
 
-(*let to_array (t, n) = Array.init n (get (t,n))*)
 let to_array (t, n) = Array.init n (get (t,n))
 
 let map (t, n) ~f = (B.map t ~f, n)
@@ -71,4 +68,5 @@ let fold_right t ~f ~init =
     accum := f x (!accum)
   ); !accum
 
-
+let from_2d_array arr =
+  Array.fold_left (fun acc x -> snoc acc (from_array x)) empty arr

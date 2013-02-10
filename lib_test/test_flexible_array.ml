@@ -104,6 +104,16 @@ let fa_fix =
         let f1 = List.fold_right (-) l 0 in
         let f2 = fold_right (from_list l) ~init:0 ~f:(-) in
         assert_equal f1 f2 ~printer:string_of_int
+      end;
+      "from_2d_array" >:: begin fun () ->
+        let (dimx, dimy) = (3, 3) in
+        let arr = ArrayLabels.make_matrix ~dimx ~dimy 10 in
+        let fa = from_2d_array arr in
+        for i = 0 to dimx-1 do
+          for j = 0 to dimy-2 do
+            assert_equal 10 (get (get fa i) j) ~printer:string_of_int
+          done
+        done
       end
     ]
 
