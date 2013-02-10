@@ -10,7 +10,7 @@ let braun_fix =
       "delete" >:: (fun () ->
         assert_equal empty (delete (leaf "foo") 1)
       );
-      "init_seq" >:: begin fun () ->
+      "create" >:: begin fun () ->
         let br = create ~len:5 10 in
         List.iter (fun i -> assert_equal (get br i) 10) [1;2;3;4;5];
       end;
@@ -114,7 +114,17 @@ let fa_fix =
             assert_equal 10 (get (get fa i) j) ~printer:string_of_int
           done
         done
-      end
+      end;
+      "create"  >:: begin fun () ->
+        let fa1 = of_list [4;4;4] in
+        let fa2 = create ~len:3 4 in
+        assert_equal fa1 fa2
+      end;
+      "init" >:: begin fun () ->
+        let fa1 = of_list [0;2;4;6] in
+        let fa2 = init ~len:4 ~f:(fun x -> x * 2) in
+        assert_equal fa1 fa2
+      end;
     ]
 
 let _ = run_test_tt ~verbose:true braun_fix

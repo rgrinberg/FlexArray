@@ -75,7 +75,10 @@ let create ~len a = (B.create ~len a, len)
 
 (* this is really inefficient but will do for now *)
 let init ~len ~f = 
-  let arr = create ~len 0 in
-  let i = ref 0 in
-  fold_left arr ~init:empty ~f:(fun accum _ -> set accum (!i) (f (!i)))
+  let arr = create ~len (f 0) in
+  let rec loop t = function
+    | 0 -> set t 0 (f 0)
+    | n -> loop (set t n (f n)) (pred n)
+  in loop arr (pred len)
+
 
