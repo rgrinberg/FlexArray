@@ -47,3 +47,10 @@ val of_2d_array : 'a array array -> 'a t t
 val init : len:int -> f:(int -> 'a) -> 'a t
 
 val create : len:int -> 'a -> 'a t
+
+val swap : 'a t -> int -> int -> 'a t
+
+module F2D : sig
+  val get : 'a t t -> int * int -> 'a
+  val set : 'a t t -> int * int -> 'a -> 'a t t
+end

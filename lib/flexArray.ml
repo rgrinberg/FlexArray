@@ -81,4 +81,18 @@ let init ~len ~f =
     | n -> loop (set t n (f n)) (pred n)
   in loop arr (pred len)
 
+let swap t i j =
+  let e = get t i in
+  let f = set t i (get t j) in
+  set f j e
+
+(* Helper functions for 2d array manipulations *)
+module F2D = struct
+  let get2 t (i, j) = get (get t i) j
+  let set2 t (i, j) v = 
+    let inner = get t i in
+    set t i (set inner j v)
+  let get = get2
+  let set = set2
+end
 
