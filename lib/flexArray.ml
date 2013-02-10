@@ -68,8 +68,6 @@ let fold_right t ~f ~init =
     accum := f x (!accum)
   ); !accum
 
-let of_2d_array arr =
-  Array.fold_left (fun acc x -> snoc acc (of_array x)) empty arr
 
 let create ~len a = (B.create ~len a, len)
 
@@ -105,5 +103,8 @@ module F2D = struct
   let init ~dimx ~dimy ~f =
     init ~len:dimx ~f:(fun x ->
       init ~len:dimy ~f:(fun y -> f ~x ~y))
+
+  let of_2d_array arr =
+    Array.fold_left (fun acc x -> snoc acc (of_array x)) empty arr
 end
 

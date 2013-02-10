@@ -19,6 +19,23 @@ let braun_fix =
         assert_equal (to_list br) [10;10;10;10;10]
       end
     ] 
+
+let fa2d_fix = 
+  let open FlexArray.F2D in
+  "test 2d convenience functions" >:::
+    [
+      "of_2d_array" >:: begin fun () ->
+        let (dimx, dimy) = (3, 3) in
+        let arr = ArrayLabels.make_matrix ~dimx ~dimy 10 in
+        let fa = of_2d_array arr in
+        for i = 0 to dimx-1 do
+          for j = 0 to dimy-2 do
+            assert_equal 10 (get fa (i,j)) ~printer:string_of_int
+          done
+        done
+      end;
+    ]
+
 let fa_fix =
   let open FlexArray      in 
   let a = [|0;1;2;3;4;5|] in 
@@ -105,16 +122,6 @@ let fa_fix =
         let f2 = fold_right (of_list l) ~init:0 ~f:(-) in
         assert_equal f1 f2 ~printer:string_of_int
       end;
-      "of_2d_array" >:: begin fun () ->
-        let (dimx, dimy) = (3, 3) in
-        let arr = ArrayLabels.make_matrix ~dimx ~dimy 10 in
-        let fa = of_2d_array arr in
-        for i = 0 to dimx-1 do
-          for j = 0 to dimy-2 do
-            assert_equal 10 (get (get fa i) j) ~printer:string_of_int
-          done
-        done
-      end;
       "create"  >:: begin fun () ->
         let fa1 = of_list [4;4;4] in
         let fa2 = create ~len:3 4 in
@@ -134,6 +141,7 @@ let fa_fix =
 
 let _ = run_test_tt ~verbose:true braun_fix
 let _ = run_test_tt ~verbose:true fa_fix
+let _ = run_test_tt ~verbose:true fa2d_fix
 
 
 

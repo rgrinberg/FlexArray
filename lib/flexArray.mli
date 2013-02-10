@@ -42,8 +42,6 @@ val fold_right : 'a t -> f:('a -> 'accum -> 'accum) -> init:'accum -> 'accum
 
 val fold_left : 'a t -> init:'accum -> f:('accum -> 'a -> 'accum) -> 'accum
 
-val of_2d_array : 'a array array -> 'a t t
-
 val init : len:int -> f:(int -> 'a) -> 'a t
 
 val create : len:int -> 'a -> 'a t
@@ -55,4 +53,5 @@ module F2D : sig
   val set : 'a t t -> int * int -> 'a -> 'a t t
   val create : dimx:int -> dimy:int -> 'a -> 'a t t
   val init : dimx:int -> dimy:int -> f:(x:int -> y:int -> 'a) -> 'a t t
+val of_2d_array : 'a array array -> 'a t t
 end
