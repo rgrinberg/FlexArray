@@ -1,6 +1,6 @@
 OASISFormat: 0.3
 Name:        flexible-array
-Version:     0.0.2
+Version:     0.0.3
 Synopsis:    Flexible Arrays (credited to Braun)
 Authors:     Rudi Grinberg
 Plugins:     META (0.3)
@@ -24,3 +24,10 @@ Test test_flexible_array
   Run$: flag(tests)
   command: $test_flexible_array
   WorkingDirectory: lib_test
+
+Executable example
+  Path: sample
+  MainIs: slider.ml
+  BuildTools: ocamlbuild
+  Install: false
+  BuildDepends: flexible-array, core
