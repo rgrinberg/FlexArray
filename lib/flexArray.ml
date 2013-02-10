@@ -88,11 +88,22 @@ let swap t i j =
 
 (* Helper functions for 2d array manipulations *)
 module F2D = struct
+  (* need this ugliness because we cannot reference functions in parent
+   * module *)
   let get2 t (i, j) = get (get t i) j
   let set2 t (i, j) v = 
     let inner = get t i in
     set t i (set inner j v)
+
   let get = get2
   let set = set2
+
+  let create ~dimx ~dimy a = 
+    let inner = create ~len:dimy a in
+    create ~len:dimx inner
+
+  let init ~dimx ~dimy ~f =
+    init ~len:dimx ~f:(fun x ->
+      init ~len:dimy ~f:(fun y -> f ~x ~y))
 end
 
