@@ -125,6 +125,11 @@ let fa_fix =
         let fa2 = init ~len:4 ~f:(fun x -> x * 2) in
         assert_equal fa1 fa2
       end;
+      "swap" >:: begin fun () ->
+        let f1 = of_list [1;2;3] in
+        let f2 = of_list [3;2;1] in
+        assert_equal (swap f1 0 2) f2
+      end;
     ]
 
 let _ = run_test_tt ~verbose:true braun_fix
