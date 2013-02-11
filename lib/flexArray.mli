@@ -32,6 +32,9 @@ val to_array : 'a t -> 'a array
 
 val map : 'a t -> f:('a -> 'b) -> 'b t
 
+(* throws Invalid_argument when arrays are of different size *)
+val map2_exn : 'a t -> 'b t -> f:('a -> 'b -> 'c) -> 'c t
+
 val iter : 'a t -> f:('a -> unit) -> unit
 
 val iter_reverse : 'a t -> f:('a -> unit) -> unit

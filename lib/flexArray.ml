@@ -47,6 +47,10 @@ let to_array (t, n) = Array.init n (get (t,n))
 
 let map (t, n) ~f = (B.map t ~f, n)
 
+let map2_exn (t1, n) (t2, m) ~f =
+  if n = m then (B.map2 t1 t2 ~f, n)
+  else raise (Invalid_argument "map2_exn: arrays of different size")
+
 (* TODO : this is a slow and shitty version for now *)
 let iter (t,n) ~f =
   for i = 1 to n do f (B.get t i); done
