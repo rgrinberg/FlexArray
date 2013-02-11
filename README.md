@@ -24,6 +24,9 @@ ocaml setup.ml -install # may require sudo
 
 ### Usage
 
+For now all important operations run in logarithmic time as expected. However
+some operations can be reduced to O(n) from O(nlogn) most likely
+
 See `lib/flexArray.mli`
 
 ### License
