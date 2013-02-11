@@ -126,12 +126,12 @@ let solve puzzle =
     valid_moves puzzle 
     |! List.map ~f:(fun m -> { puzzle=(make_move puzzle m); moves=(m::moves) })
     (* we sort by norm from the solution, maybe it pays off for its cost? *)
-    (*|! List.sort ~cmp:(fun { puzzle={mat=x;_};_ } { puzzle={mat=y;_};_ } ->*)
-        (*compare (norm (subtract id x)) (norm (subtract id y)))*)
+    |! List.sort ~cmp:(fun { puzzle={mat=x;_};_ } { puzzle={mat=y;_};_ } ->
+        compare (norm (subtract id x)) (norm (subtract id y)))
     (* "schwartzian" transform!!! *)
-    |! List.map ~f:(fun p -> (norm (subtract id p.puzzle.mat), p))
-    |! List.sort ~cmp:(fun (x, _) (y, _) -> compare x y)
-    |! List.map ~f:snd
+    (*|! List.map ~f:(fun p -> (norm (subtract id p.puzzle.mat), p))*)
+    (*|! List.sort ~cmp:(fun (x, _) (y, _) -> compare x y)*)
+    (*|! List.map ~f:snd*)
   in xfs ~collection ~cache ~termination ~next ~start:({puzzle; moves=[]})
 
 let print_puzzle { mat ; _ } = 
