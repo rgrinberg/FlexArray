@@ -4,7 +4,7 @@ open Core.Std
 module FA = FlexArray
 module FA2 = FlexArray.F2D
 
-type move = | Left | Right | Up | Down
+type move = Left | Right | Up | Down
 
 let random_state = Random.State.make_self_init ()
 
