@@ -81,6 +81,13 @@ let rec map t ~f =
   | Empty -> Empty
   | Branch (left, x, right) -> Branch (map left ~f, (f x), map right ~f)
 
+let rec map2 t1 t2 ~f = 
+  match t1, t2 with
+  | Empty, Empty -> Empty
+  | Branch (l1, x1, r1), Branch (l2, x2, r2) ->
+      Branch (map2 l1 l2 ~f, (f x1 x2), map2 r1 r2 ~f)
+  | _, _ -> raise (Invalid_argument "map2: different sizes of arrays")
+
 let rec iter_orderless t ~f = 
   match t with
   | Empty -> ()
