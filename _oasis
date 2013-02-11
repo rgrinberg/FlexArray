@@ -31,3 +31,4 @@ Executable example
   BuildTools: ocamlbuild
   Install: false
   BuildDepends: flexible-array, core, pa_pipebang
+  CompiledObject: native
