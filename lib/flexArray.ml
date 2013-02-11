@@ -127,5 +127,7 @@ module F2D = struct
 
   let to_2d_array arr = 
     Array.map to_array (to_array arr)
+
+  let iter arr ~f = iter arr ~f:(fun x -> iter x ~f)
 end
 

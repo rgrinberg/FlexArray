@@ -63,4 +63,5 @@ module F2D : sig
   val to_2d_array : 'a t t -> 'a array array
   val dimensions : 'a t t -> int * int
   val inbounds : 'a t t -> int * int -> bool
+  val iter : 'a t t -> f:('a -> unit) -> unit
 end
