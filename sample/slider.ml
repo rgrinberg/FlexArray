@@ -64,6 +64,10 @@ let zero_last arr =
   let zero_posn = fst (Array.findi_exn arr ~f:(fun _ x -> x = 0)) in
   Array.swap arr zero_posn (Array.length arr - 1)
 
+let new_puzzle_mat mat = 
+  let (zx, zy) = FA2.dimensions mat in
+  { puzzle={ mat; zero=(zx-1,zy-1) }; moves=[] }
+
 let create_random_puzzle ~dim = 
   let rnd = Array.init ~f:(fun i -> i) (dim * dim) in
   Array.permute ~random_state rnd; zero_last rnd;
@@ -106,28 +110,59 @@ let xfs ~collection ~cache ~termination ~next ~start =
     end
   in try loop () with Found_Soln n -> Some (reverse_moves n)
 
-let solve puzzle = 
-  let dim = FA.length puzzle.mat in
-  let termination = 
-    let soln = make_solution_checker ~dim in
-    (fun {puzzle; _ } -> soln puzzle ) in
-  let collection = object
+
+module Collections : sig
+  (* need this b/c we are not using every defined collection hence OCaml
+   * will complain because it can't infer the type without usage... *)
+  type t = < add : Puzzle.state -> unit; remove : Puzzle.state option >
+  val queue : t
+  val stack : t
+  val priority_queue : id:Puzzle.state -> t
+end = struct
+  type t = < add : Puzzle.state -> unit; remove : Puzzle.state option >
+  let queue = object
     val q = Queue.create ()
     method add = Queue.enqueue q
     method remove = Queue.dequeue q
-  end in
+  end
+
+  let stack = object
+    val q = Stack.create ()
+    method add = Stack.push q
+    method remove = Stack.pop q
+  end
+
+  let priority_queue ~id = 
+    let id = id.puzzle.mat in object
+      val q = Heap.create (fun {puzzle={mat=x;_};_ } { puzzle={mat=y;_};_ } ->
+        compare (norm (subtract id x)) (norm (subtract id y)))
+      method add e = (Heap.push q e) |! ignore
+      method remove = Heap.pop q
+  end
+end
+
+let verify puzzle = 
+  failwith "no verification is available yet"
+
+let solve puzzle = 
+  let dim = FA.length puzzle.mat in
+  let id = identity ~dim in
+  let termination = 
+    let soln = make_solution_checker ~dim in
+    (fun {puzzle; _ } -> soln puzzle ) in
+  let collection = Collections.priority_queue ~id:(new_puzzle_mat id) in
   let cache = object
     val c = Hashtbl.create 10000
     method add_visit { puzzle ; _ } = Hashtbl.add c puzzle ()
     method visited { puzzle ; _ } = Hashtbl.mem c puzzle
   end in
-  let id = identity ~dim in
   let next { puzzle ; moves } = 
     valid_moves puzzle 
     |! List.map ~f:(fun m -> { puzzle=(make_move puzzle m); moves=(m::moves) })
+    (* don't need any of the following if we are using a PQ for ~collection *)
     (* we sort by norm from the solution, maybe it pays off for its cost? *)
-    |! List.sort ~cmp:(fun { puzzle={mat=x;_};_ } { puzzle={mat=y;_};_ } ->
-        compare (norm (subtract id x)) (norm (subtract id y)))
+    (*|! List.sort ~cmp:(fun { puzzle={mat=x;_};_ } { puzzle={mat=y;_};_ } ->*)
+        (*compare (norm (subtract id x)) (norm (subtract id y)))*)
     (* "schwartzian" transform!!! *)
     (*|! List.map ~f:(fun p -> (norm (subtract id p.puzzle.mat), p))*)
     (*|! List.sort ~cmp:(fun (x, _) (y, _) -> compare x y)*)
