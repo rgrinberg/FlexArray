@@ -61,8 +61,10 @@ let subtract t1 t2 =
 let make_solution_checker ~dim = 
   let soln = identity ~dim in
   let h = Caml.Hashtbl.hash soln in
-  (fun {mat ; _} -> soln = mat)
-  (*(fun {mat ; _} -> h = (Caml.Hashtbl.hash mat))*)
+  begin fun {mat ; _} ->
+    if h = Caml.Hashtbl.hash mat then soln = mat
+    else false
+  end
 
 let zero_last arr = 
   let zero_posn = fst (Array.findi_exn arr ~f:(fun _ x -> x = 0)) in
