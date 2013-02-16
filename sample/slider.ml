@@ -80,8 +80,8 @@ let create_random_puzzle ~dim =
 let new_zero ~zero:(i,j) = function
   | Left  -> (i-1, j)
   | Right -> (i+1, j)
-  | Up    -> (i, j+1)
-  | Down  -> (i, j-1)
+  | Up    -> (i, j-1)
+  | Down  -> (i, j+1)
 
 let opt_of_bool v b = if b then Some v else None
 
