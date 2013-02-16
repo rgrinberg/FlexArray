@@ -57,11 +57,12 @@ let norm t =
 let subtract t1 t2 = 
   FA.map2_exn t1 t2 ~f:(fun a b -> FA.map2_exn a b ~f:(fun x y -> x - y))
 
+(* hashing for fast identity comparison does not work *)
 let make_solution_checker ~dim = 
   let soln = identity ~dim in
   let h = Caml.Hashtbl.hash soln in
-  (*(fun {mat ; _} -> soln = mat)*)
-  (fun {mat ; _} -> h = (Caml.Hashtbl.hash mat))
+  (fun {mat ; _} -> soln = mat)
+  (*(fun {mat ; _} -> h = (Caml.Hashtbl.hash mat))*)
 
 let zero_last arr = 
   let zero_posn = fst (Array.findi_exn arr ~f:(fun _ x -> x = 0)) in
