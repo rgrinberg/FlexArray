@@ -46,7 +46,10 @@ let identity ~dim =
   soln.(pred (dim * dim)) <- 0;
   FA2.of_2d_array (square ~dim soln)
 
-(* actually this is the norm sqaured... but who cares *)
+let puzzle_id ~dim = 
+  let z = pred dim in { mat=(identity ~dim); zero=(z,z) }
+
+(* actually this is the norm sqaured. but it makes no difference *)
 let norm t = 
   let i = ref 0 in
   FA2.iter t ~f:(fun x -> i := (!i) + (x*x)); !i
