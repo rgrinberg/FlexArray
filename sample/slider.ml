@@ -78,6 +78,7 @@ let create_random_puzzle ~dim =
   let mat = square ~dim rnd in
   { mat=(FA2.of_2d_array mat); zero=(pred dim, pred dim) }
 
+(** Calculates the position of the zero after a new move *)
 let new_zero ~zero:(i,j) = function
   | Left  -> (i-1, j)
   | Right -> (i+1, j)
@@ -145,8 +146,21 @@ end = struct
   end
 end
 
-let verify puzzle = 
-  failwith "no verification is available yet"
+let array2d_of_puzzle { mat ; _ } = FA2.to_2d_array mat
+
+let print_puzzle { mat ; _ } = 
+  let arr = FA2.to_2d_array mat in
+  let s = Array.sexp_of_t (Array.sexp_of_t Int.sexp_of_t) arr in
+  print_endline (Sexp.to_string s)
+
+
+let apply_moves puzzle moves = 
+  let rec loop puzzle = function
+    | [] -> puzzle
+    | move::moves -> loop (make_move puzzle move) moves
+  in loop puzzle moves
+
+let verify ~id puzzle moves = (apply_moves puzzle moves) = id
 
 let solve puzzle = 
   let dim = FA.length puzzle.mat in
@@ -172,11 +186,6 @@ let solve puzzle =
     (*|! List.sort ~cmp:(fun (x, _) (y, _) -> compare x y)*)
     (*|! List.map ~f:snd*)
   in xfs ~collection ~cache ~termination ~next ~start:({puzzle; moves=[]})
-
-let print_puzzle { mat ; _ } = 
-  let arr = FA2.to_2d_array mat in
-  let s = Array.sexp_of_t (Array.sexp_of_t Int.sexp_of_t) arr in
-  print_endline (Sexp.to_string s)
 
 let print_moves moves = 
   moves |! List.iter ~f:(fun m -> Printf.printf "%s\n" (string_of_move m))
