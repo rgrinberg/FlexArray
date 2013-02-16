@@ -192,9 +192,24 @@ let print_moves moves =
 
 let () = [2;3;4;5;6] |! List.iter ~f:(fun dim ->
   let random_puzzle = create_random_puzzle ~dim in
+  print_endline "Attempting to solve:";
   print_puzzle random_puzzle;
+  print_endline "-----------------------------------------";
   let soln = solve random_puzzle in
   match soln with
-  | None -> print_endline "no solution was_found"
-  | Some { moves ; _ } -> print_moves moves)
+  | None -> print_endline "no solution was found"
+  | Some { moves ; _ } -> begin
+    let id = puzzle_id ~dim in
+    if verify ~id random_puzzle moves 
+    then begin 
+      print_endline "{{{"; (print_moves moves); print_endline "}}}"
+    end
+    else begin
+      (* print wrong solution to maybe diagnose *)
+      print_endline "Solution doesn't work. End result is:";
+      print_puzzle (apply_moves random_puzzle moves)
+    end
+  end;
+  print_endline "-----------------------------------------";)
+
 
