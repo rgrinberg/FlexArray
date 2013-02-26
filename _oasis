@@ -30,5 +30,5 @@ Executable example
   MainIs: slider.ml
   BuildTools: ocamlbuild
   Install: false
-  BuildDepends: flexible-array, core, pa_pipebang
+  BuildDepends: flexible-array, core
   CompiledObject: native

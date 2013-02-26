@@ -76,7 +76,8 @@ let new_puzzle_mat mat =
 
 let create_random_puzzle ~dim = 
   let rnd = Array.init ~f:(fun i -> i) (dim * dim) in
-  Array.permute ~random_state rnd; zero_last rnd;
+  Array.permute ~random_state rnd;
+  zero_last rnd;
   let mat = square ~dim rnd in
   { mat=(FA2.of_2d_array mat); zero=(pred dim, pred dim) }
 
@@ -91,7 +92,7 @@ let opt_of_bool v b = if b then Some v else None
 
 let valid_moves { mat; zero } = 
   [Left; Right; Up; Down]
-  |! List.filter_map ~f:(fun p ->
+  |> List.filter_map ~f:(fun p ->
     let nz = new_zero ~zero p in
     opt_of_bool p (FA2.inbounds mat nz))
 
@@ -143,7 +144,7 @@ end = struct
     let id = id.puzzle.mat in object
       val q = Heap.create (fun {puzzle={mat=x;_};_ } { puzzle={mat=y;_};_ } ->
         compare (norm (subtract id x)) (norm (subtract id y)))
-      method add e = (Heap.push q e) |! ignore
+      method add e = (Heap.push q e) |> ignore
       method remove = Heap.pop q
   end
 end
@@ -178,21 +179,21 @@ let solve puzzle =
   end in
   let next { puzzle ; moves } = 
     valid_moves puzzle 
-    |! List.map ~f:(fun m -> { puzzle=(make_move puzzle m); moves=(m::moves) })
+    |> List.map ~f:(fun m -> { puzzle=(make_move puzzle m); moves=(m::moves) })
     (* don't need any of the following if we are using a PQ for ~collection *)
     (* we sort by norm from the solution, maybe it pays off for its cost? *)
-    (*|! List.sort ~cmp:(fun { puzzle={mat=x;_};_ } { puzzle={mat=y;_};_ } ->*)
+    (*|> List.sort ~cmp:(fun { puzzle={mat=x;_};_ } { puzzle={mat=y;_};_ } ->*)
         (*compare (norm (subtract id x)) (norm (subtract id y)))*)
     (* "schwartzian" transform!!! *)
-    (*|! List.map ~f:(fun p -> (norm (subtract id p.puzzle.mat), p))*)
-    (*|! List.sort ~cmp:(fun (x, _) (y, _) -> compare x y)*)
-    (*|! List.map ~f:snd*)
+    (*|> List.map ~f:(fun p -> (norm (subtract id p.puzzle.mat), p))*)
+    (*|> List.sort ~cmp:(fun (x, _) (y, _) -> compare x y)*)
+    (*|> List.map ~f:snd*)
   in xfs ~collection ~cache ~termination ~next ~start:({puzzle; moves=[]})
 
 let print_moves moves = 
-  moves |! List.iter ~f:(fun m -> Printf.printf "%s\n" (string_of_move m))
+  moves |> List.iter ~f:(fun m -> Printf.printf "%s\n" (string_of_move m))
 
-let () = [2;3;4;5;6] |! List.iter ~f:(fun dim ->
+let () = [2;3;4;5;6] |> List.iter ~f:(fun dim ->
   let random_puzzle = create_random_puzzle ~dim in
   print_endline "Attempting to solve:";
   print_puzzle random_puzzle;
@@ -213,5 +214,3 @@ let () = [2;3;4;5;6] |! List.iter ~f:(fun dim ->
     end
   end;
   print_endline "-----------------------------------------";)
-
-
