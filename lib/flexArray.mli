@@ -1,3 +1,5 @@
+(** Functional arrays implemented with braun trees *)
+
 type 'a t
 
 exception Subscript
@@ -6,6 +8,7 @@ exception Size
 
 val empty : 'a t
 
+(** [length t] return length of array [t]. O(1) time *)
 val length : 'a t -> int
 
 val get : 'a t-> int -> 'a
@@ -32,7 +35,7 @@ val to_array : 'a t -> 'a array
 
 val map : 'a t -> f:('a -> 'b) -> 'b t
 
-(* throws Invalid_argument when arrays are of different size *)
+(** throws Invalid_argument when arrays are of different size *)
 val map2_exn : 'a t -> 'b t -> f:('a -> 'b -> 'c) -> 'c t
 
 val iter : 'a t -> f:('a -> unit) -> unit

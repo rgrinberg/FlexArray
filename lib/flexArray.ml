@@ -51,7 +51,7 @@ let map2_exn (t1, n) (t2, m) ~f =
   if n = m then (B.map2 t1 t2 ~f, n)
   else raise (Invalid_argument "map2_exn: arrays of different size")
 
-(* TODO : this is a slow and shitty version for now *)
+(* TODO : it's possible that this could be faster *)
 let iter (t,n) ~f =
   for i = 1 to n do f (B.get t i); done
 

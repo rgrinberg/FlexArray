@@ -21,9 +21,11 @@ module Puzzle = struct
   type state = {
     puzzle : puzzle;
     moves : move list; } (* first move is last in the list *)
+
   (* not using core's hashtbl because don't want dependency on sexplib *)
   (* TODO : it's possible to record states instead of puzzles so that we 
    * could maybe do some crude moves length optimization for free *)
+
   module Hashtbl = Caml.Hashtbl.Make (struct
     type t = puzzle
     let equal = (=)
@@ -52,7 +54,7 @@ let puzzle_id ~dim =
 (* actually this is the norm sqaured. but it makes no difference *)
 let norm t = 
   let i = ref 0 in
-  FA2.iter t ~f:(fun x -> i := (!i) + (x*x)); !i
+  FA2.iter t ~f:(fun x -> i := (!i) + abs(x)); !i
 
 let subtract t1 t2 = 
   FA.map2_exn t1 t2 ~f:(fun a b -> FA.map2_exn a b ~f:(fun x y -> x - y))
@@ -114,7 +116,8 @@ let xfs ~collection ~cache ~termination ~next ~start =
       (if termination e then raise (Found_Soln e));
       ignore (cache#add_visit e);
       let frontier = next e in
-      List.iter frontier ~f:(collection#add); loop ()
+      List.iter frontier ~f:(collection#add);
+      loop ()
     end
   in try loop () with Found_Soln n -> Some (reverse_moves n)
 
